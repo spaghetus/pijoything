@@ -1,0 +1,9 @@
+buttons = [
+	# If a pin is connected to ground, it will be 
+	# Pad Up, Left, Down, Right
+	17, 27, 22, 23,
+	# B, A
+	26, 16,
+	# Start, Select
+	5, 6,
+]

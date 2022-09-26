@@ -1,0 +1,3 @@
+# pi joystick thing
+
+A userspace driver for custom joysticks on Raspberry Pi. I have no idea if it works yet, but we'll see...
