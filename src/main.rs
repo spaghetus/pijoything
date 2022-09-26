@@ -1,13 +1,14 @@
+#![warn(clippy::pedantic)]
+
 use std::{
-	ops::Deref,
 	path::PathBuf,
-	sync::{Arc, Mutex, RwLock},
+	sync::{Arc, Mutex},
 	time::{Duration, Instant},
 };
 
 use evdev::{
 	uinput::{VirtualDevice, VirtualDeviceBuilder},
-	AttributeSet, BusType, EventType, InputEvent, InputId, Key,
+	AttributeSet, EventType, InputEvent, Key,
 };
 use rppal::gpio::{Gpio, InputPin};
 use serde::{Deserialize, Serialize};
@@ -54,7 +55,7 @@ pub struct JoystickState {
 impl Joystick {
 	fn deinit(&mut self) {
 		for pin in &self.pins {
-			pin.lock().unwrap().clear_async_interrupt().unwrap_or(())
+			pin.lock().unwrap().clear_async_interrupt().unwrap_or(());
 		}
 		self.pins.clear();
 		self.gpio = None;
@@ -76,7 +77,7 @@ impl Joystick {
 			.buttons
 			.iter()
 			.map(|index| self.gpio.as_ref().unwrap().get(*index).expect("Bad pin"))
-			.map(|v| v.into_input_pullup())
+			.map(rppal::gpio::Pin::into_input_pullup)
 			.map(Mutex::new)
 			.map(Arc::new)
 			.collect();
